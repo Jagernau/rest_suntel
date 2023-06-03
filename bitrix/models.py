@@ -40,7 +40,7 @@ class Tdata(models.Model):
     dimport = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return self.login
+        return self.object
 
     class Meta:
         managed = False
