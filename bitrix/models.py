@@ -9,6 +9,7 @@ from django.db import models
 
 
 class Tagat(models.Model):
+    id = models.BigAutoField(primary_key=True, auto_created=True)
     object = models.TextField(blank=True, null=True)
     idobject = models.TextField(blank=True, null=True)
     shortname = models.TextField(blank=True, null=True)
@@ -48,6 +49,7 @@ class Tdata(models.Model):
 
 
 class Temail(models.Model):
+    id = models.BigAutoField(primary_key=True, auto_created=True)
     email = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
     inn = models.TextField(blank=True, null=True)

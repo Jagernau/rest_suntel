@@ -7,8 +7,6 @@ from rest_framework.permissions import IsAuthenticated
 class TagatViewSet(viewsets.ModelViewSet):
     queryset = Tagat.objects.all()
     serializer_class = TagatSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('inn',)
 
 class TdataViewSet(viewsets.ModelViewSet):
     queryset = Tdata.objects.all()
@@ -18,8 +16,6 @@ class TdataViewSet(viewsets.ModelViewSet):
 class TemailViewSet(viewsets.ModelViewSet):
     queryset = Temail.objects.all()
     serializer_class = TemailSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('inn',)
 
 class TklientViewSet(viewsets.ModelViewSet):
     queryset = Tklient.objects.all()
