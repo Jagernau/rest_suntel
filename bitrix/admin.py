@@ -1,5 +1,6 @@
 from django.contrib import admin
 from bitrix.models import *
+from django.contrib.admin import DateFieldListFilter
 # Register your models here.
 
 class TagatAdmin(admin.ModelAdmin):
@@ -19,9 +20,9 @@ class TagatAdmin(admin.ModelAdmin):
     )
 
 class TdataAdmin(admin.ModelAdmin):
-    list_display = ('login', 'idlogin', "object")
+    list_display = ('login', 'idlogin', "object", "dimport")
     search_fields = ('login', 'idlogin', 'idsystem', 'object')
-    list_filter = ('login', 'idlogin', 'idsystem', 'object', 'idobject', 'isactive', 'id')
+    list_filter = (('dimport', DateFieldListFilter), )
     list_per_page = 25
     fieldsets = (
         (None, {'fields': ('login', 'idlogin', 'idsystem', 'object')}),
