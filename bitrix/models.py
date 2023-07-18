@@ -14,7 +14,7 @@ class Tagat(models.Model):
     idobject = models.TextField(blank=True, null=True)
     shortname = models.TextField(blank=True, null=True)
     inn = models.TextField(blank=True, null=True)
-    tarif = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    tarif = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     idsystem = models.BigIntegerField(blank=True, null=True)
     kpp = models.TextField(blank=True, null=True)
     name = models.TextField(blank=True, null=True)
@@ -70,7 +70,7 @@ class Tklient(models.Model):
     inn = models.TextField(blank=True, null=True)
     kpp = models.TextField(blank=True, null=True)
     id = models.BigAutoField(primary_key=True)
-    tarif = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    tarif = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -83,7 +83,7 @@ class Tklient(models.Model):
 
 class Ttarif(models.Model):
     tkid = models.ForeignKey(Tklient, models.DO_NOTHING, db_column='tkid', blank=True, null=True)
-    tarif = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    tarif = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     dbeg = models.DateTimeField(blank=True, null=True)
     dend = models.DateTimeField(blank=True, null=True)
     id = models.BigAutoField(primary_key=True)
