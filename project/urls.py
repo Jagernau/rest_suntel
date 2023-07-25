@@ -20,6 +20,12 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 #include
 from django.urls import include
 from django.urls import include, re_path
+from bitrix.views import MergeEmailListView 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -28,6 +34,6 @@ urlpatterns = [
         "schema/swagger-ui/",
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui"),
-    re_path(r'^auth/', include('djoser.urls')),
-    path("api", include("bitrix.urls")),
+    path("api/", include("bitrix.urls")),
+    path('mergemail/', MergeEmailListView.as_view(), name='mergemail-list'),
 ]

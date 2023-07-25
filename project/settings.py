@@ -85,11 +85,11 @@ WSGI_APPLICATION = "project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "scam_db",
+        "NAME": "remote_20221219",
         "USER": "postgres",
-        "PASSWORD": "masterkey",
+        "PASSWORD": "Max_23SunTellf04Rb8420",
         "HOST": "localhost",
-        "PORT": 5432
+        "PORT": 5333
     }
 }
 
@@ -145,10 +145,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
      'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+         'rest_framework.authentication.TokenAuthentication',
     ]
 
 
 }
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'rest_framework.authentication.TokenAuthentication',
+    # Other authentication backends...
+]
