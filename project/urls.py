@@ -36,4 +36,5 @@ urlpatterns = [
         name="swagger-ui"),
     path("api/", include("bitrix.urls")),
     path('mergemail/', MergeEmailListView.as_view(), name='mergemail-list'),
+    path("graphical/", include('graphical.urls')),
 ]

@@ -30,3 +30,5 @@ class Twialon100Serializer(serializers.ModelSerializer):
     class Meta:
         model = Twialon100
         fields = '__all__'
+
+
