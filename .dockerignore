@@ -153,3 +153,17 @@ dmypy.json
 cython_debug/
 
 
+*.json
+!spec/*.json
+*.sql
+/files
+*.csv
+*.xlsx
+*.xls
+*.pdf
+*.doc
+*.docx
+log.txt
+install.sh
+Dockerfile
+*install.sh
