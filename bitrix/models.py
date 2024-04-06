@@ -190,21 +190,6 @@ class Tklient(models.Model):
         db_table = 'tklient'
 
 
-class Tsveta(models.Model):
-    name = models.TextField(blank=True, null=True)
-    skol = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    kol1 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    kol2 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    tar1 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    tar2 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    sum = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    id = models.BigAutoField()
-
-    class Meta:
-        managed = False
-        db_table = 'tsveta'
-        db_table_comment = 'для проставки тарифов в таблицу tklient, вспомогательная'
-
 
 class Ttarif(models.Model):
     tkid = models.ForeignKey(Tklient, models.DO_NOTHING, db_column='tkid', blank=True, null=True)
