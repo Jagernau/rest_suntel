@@ -7,7 +7,6 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
@@ -133,61 +132,209 @@ class DjangoSession(models.Model):
 
 
 class Tagat(models.Model):
-    object = models.TextField(blank=True, null=True)
-    idobject = models.TextField(blank=True, null=True)
-    shortname = models.TextField(blank=True, null=True)
-    inn = models.TextField(blank=True, null=True)
-    tarif = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    idsystem = models.BigIntegerField(blank=True, null=True)
-    kpp = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
-    dbeg = models.DateTimeField(blank=True, null=True)
-    dend = models.DateTimeField(blank=True, null=True)
+
+    class SystemMonitoring(models.IntegerChoices):
+
+        WIALON_Hosting = 11, 'Wialon Hosting'
+        Fort_Monitoring = 12, 'Fort Monitoring'
+        Glonass_Monitoring = 13, 'Glonass Monitoring'
+        Scout = 14, 'Scout'
+        Era = 15, 'Era'
+        WIALON_Local = 16, 'Wialon Local'
+
+    object = models.TextField(
+            blank=True, 
+            null=True,
+            verbose_name='Имя ТС'
+            )
+    idobject = models.TextField(
+            blank=True, 
+            null=True,
+            verbose_name='ID ТС'
+            )
+    shortname = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='Короткое имя Клиента',
+            )
+    inn = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='ИНН',
+            )
+    tarif = models.IntegerField(
+            blank=True, 
+            null=True,
+            verbose_name='Тариф',
+            )
+    idsystem = models.BigIntegerField(
+            blank=True, 
+            null=True,
+            choices=SystemMonitoring.choices,
+            verbose_name= 'Система мониторинга',
+            )
+    kpp = models.TextField(
+            blank=True, 
+            null=True,
+            verbose_name='КПП',
+            )
+    name = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='Рабочее имя Клиента',
+            )
+    dbeg = models.DateTimeField(
+            blank=True,
+            null=True,
+            verbose_name='Дата начала разбивки',
+            )
+    dend = models.DateTimeField(
+            blank=True, 
+            null=True,
+            verbose_name='Дата окончания разбивки',
+            )
 
     class Meta:
         managed = False
         db_table = 'tagat'
         db_table_comment = 'Дополнительная разбивка одной учетной записи по ИНН. Впервые возникла необходимость для агат-проекта'
+        verbose_name = 'Дополнительная разбивка'
+        verbose_name_plural = 'Дополнительные разбивки'
+
+    def __str__(self):
+        return self.object
 
 
 class Tdata(models.Model):
-    login = models.TextField(blank=True, null=True)
-    idlogin = models.TextField(blank=True, null=True)
-    idsystem = models.IntegerField(blank=True, null=True)
-    object = models.TextField(blank=True, null=True)
-    idobject = models.TextField(blank=True, null=True)
-    isactive = models.TextField(blank=True, null=True)
+
+    class SystemMonitoring(models.IntegerChoices):
+
+        WIALON_Hosting = 11, 'Wialon Hosting'
+        Fort_Monitoring = 12, 'Fort Monitoring'
+        Glonass_Monitoring = 13, 'Glonass Monitoring'
+        Scout = 14, 'Scout'
+        Era = 15, 'Era'
+        WIALON_Local = 16, 'Wialon Local'
+        
+
+    login = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='Клиент в системе мониторинга',
+            )
+    idlogin = models.TextField(
+            blank=True, 
+            null=True,
+            verbose_name='ID клиента в системе мониторинга',
+            )
+    idsystem = models.IntegerField(
+            blank=True,
+            null=True,
+            verbose_name='Система мониторинга',
+            choices=SystemMonitoring.choices,
+            )
+    object = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='Имя ТС',
+            )
+    idobject = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='ID ТС',
+            )
+    isactive = models.TextField(
+            blank=True, 
+            null=True,
+            verbose_name='Активен',
+            )
     id = models.BigIntegerField(primary_key=True)
-    dimport = models.DateTimeField(blank=True, null=True)
+    dimport = models.DateTimeField(
+            blank=True, 
+            null=True,
+            verbose_name='Дата выгрузки',
+            )
 
     class Meta:
         managed = False
         db_table = 'tdata'
+        verbose_name = 'Объект мониторинга'
+        verbose_name_plural = 'Объекты мониторинга'
+
+    def __str__(self):
+        return self.object
 
 
 class Temail(models.Model):
-    email = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
-    inn = models.TextField(blank=True, null=True)
-    kpp = models.TextField(blank=True, null=True)
+
+    email = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='Электронная почта',
+            )
+    name = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='Клиент',
+            )
+    inn = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='ИНН',
+            )
+    kpp = models.TextField(
+            blank=True, 
+            null=True,
+            verbose_name='КПП',
+            )
 
     class Meta:
         managed = False
         db_table = 'temail'
+        verbose_name = 'Электронная почта'
+        verbose_name_plural = 'Электронные почты'
+
+    def __str__(self):
+        return self.email
 
 
 class Tklient(models.Model):
-    name = models.TextField(blank=True, null=True)
-    shortname = models.TextField(blank=True, null=True)
-    type = models.TextField(blank=True, null=True)
-    inn = models.TextField(blank=True, null=True)
-    kpp = models.TextField(blank=True, null=True)
+    name = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='Рабочее имя',
+            )
+    shortname = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='Короткое имя',
+            )
+    type = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='Тип клиента',
+            )
+    inn = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='ИНН',
+            )
+    kpp = models.TextField(
+            blank=True, 
+            null=True,
+            verbose_name='КПП',
+            )
     id = models.BigAutoField(primary_key=True)
-    tarif = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    tarif = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'tklient'
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
+
+    def __str__(self):
+        return self.name
 
 
 

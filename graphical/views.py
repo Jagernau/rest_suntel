@@ -7,7 +7,6 @@ from rest_framework.views import APIView
 from django.db.models import Q, Case, When, Value, CharField
 from bitrix.models import Tdata, Tagat, Temail, Tklient, Twialon100, Ttarif
 from django.http import HttpResponse
-import pandas as pd
 from django.http import JsonResponse
 
 class HomeView(APIView):
@@ -44,12 +43,6 @@ class CalendarView(APIView):
         for data in tdata:
             data['idsystem'] = system_names.get(data['idsystem'], data['idsystem'])
 
-        if 'download' in request.POST:
-            df = pd.DataFrame(tdata)
-            response = HttpResponse(content_type='application/vnd.ms-excel')
-            response['Content-Disposition'] = 'attachment; filename="data.xlsx"'
-            df.to_excel(response, index=False)
-            return response
 
         return render(request, 'calendar.html', {'tdata': tdata})
 
