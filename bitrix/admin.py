@@ -4,37 +4,43 @@ from django.contrib.admin import DateFieldListFilter
 # Register your models here.
 
 class TagatAdmin(admin.ModelAdmin):
-    list_display = ('object', 'idobject', 'shortname', 'inn', 'tarif', 'idsystem', 'kpp', 'name', 'dbeg', 'dend')
+    list_display = ('object', 'name', 'shortname', 'inn', 'kpp', 'tarif', 'idobject', 'idsystem','dbeg', 'dend')
     search_fields = ('object', 'idobject', 'shortname', 'inn', 'tarif', 'idsystem', 'kpp', 'name', 'dbeg', 'dend')
-    list_filter = ('object', 'idobject', 'shortname', 'inn', 'tarif', 'idsystem', 'kpp', 'name', 'dbeg', 'dend')
-    fieldsets = (
-        (None, {'fields': ('object', 'idobject', 'shortname', 'inn', 'tarif', 'idsystem', 'kpp', 'name', 'dbeg', 'dend')}),
-
-    )
+    list_filter = ('idsystem',)
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('object', 'idobject', 'shortname', 'inn', 'tarif', 'idsystem', 'kpp', 'name', 'dbeg', 'dend'),
+            'fields': 
+            (
+                'object', 
+                'idobject', 
+                'shortname',
+                'inn', 
+                'tarif', 
+                'idsystem', 
+                'kpp',
+                'name', 
+                'dbeg',
+                'dend'),
 
         })
     )
+    list_per_page = 20
+
 
 class TdataAdmin(admin.ModelAdmin):
-    list_display = ('login', 'idlogin', "object", "dimport")
+    list_display = ('object', 'login', 'idlogin', "dimport")
     search_fields = ('login', 'idlogin', 'idsystem', 'object')
     list_filter = (('dimport', DateFieldListFilter), )
-    list_per_page = 25
-    fieldsets = (
-        (None, {'fields': ('login', 'idlogin', 'idsystem', 'object')}),
 
-    )
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('login', 'idlogin', 'idsystem', 'object', 'idobject', 'isactive', 'id'),
+    list_per_page = 20
 
-        })
-    )
+    def get_clients(self, obj):
+        if obj.login:
+            if Twialon100.objects.filter(login=obj.login).exists():
+                twialon100_tkid= Twialon100.objects.filter(login=obj.login).first().tkid
+                if tklient := Tklient.objects.filter(id=twialon100_tkid).first():
+                    return tklient.name
 
 
 class TemailAdmin(admin.ModelAdmin):
@@ -77,18 +83,10 @@ class TtarifAdmin(admin.ModelAdmin):
     list_filter = ('tarif',)
     list_per_page = 25
     
-class Twialon100Admin(admin.ModelAdmin):
-    list_display = ('klient', 'login', 'id')
-    search_fields = ('klient', 'login', 'id')
-    list_filter = ('klient', 'id','login')
-    list_per_page = 25
-
-
 
 admin.site.register(Tagat, TagatAdmin)
 admin.site.register(Tdata, TdataAdmin)
 admin.site.register(Temail, TemailAdmin)
 admin.site.register(Tklient, TklientAdmin)
 admin.site.register(Ttarif, TtarifAdmin)
-admin.site.register(Twialon100, Twialon100Admin)
 

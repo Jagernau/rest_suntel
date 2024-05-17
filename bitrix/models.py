@@ -339,20 +339,52 @@ class Tklient(models.Model):
 
 
 class Ttarif(models.Model):
-    tkid = models.ForeignKey(Tklient, models.DO_NOTHING, db_column='tkid', blank=True, null=True)
-    tarif = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    dbeg = models.DateTimeField(blank=True, null=True)
-    dend = models.DateTimeField(blank=True, null=True)
+    tkid = models.ForeignKey(
+            Tklient, 
+            models.DO_NOTHING, 
+            db_column='tkid', 
+            blank=True, 
+            null=True,
+            verbose_name='ID Клиента',
+            )
+    tarif = models.IntegerField(
+            blank=True, 
+            null=True,
+            verbose_name='Тариф',
+            )
+    dbeg = models.DateTimeField(
+            blank=True,
+            null=True,
+            verbose_name='Дата начала',
+            )
+    dend = models.DateTimeField(
+            blank=True,
+            null=True,
+            verbose_name='Дата окончания',
+            )
     id = models.BigAutoField(primary_key=True)
 
     class Meta:
         managed = False
         db_table = 'ttarif'
+        verbose_name = 'Тарифы'
+        verbose_name_plural = 'Тарифы'
+
+    def __str__(self):
+        return self.tarif
 
 
 class Twialon100(models.Model):
-    klient = models.TextField(blank=True, null=True)
-    login = models.TextField(blank=True, null=True)
+    klient = models.TextField(
+            blank=True,
+            null=True,
+            verbose_name='Клиент',
+            )
+    login = models.TextField(
+            blank=True, 
+            null=True,
+            verbose_name='Логин',
+            )
     id = models.BigAutoField(primary_key=True)
     logintd = models.TextField(blank=True, null=True)
     tkid = models.BigIntegerField(blank=True, null=True)
@@ -361,3 +393,6 @@ class Twialon100(models.Model):
         managed = False
         db_table = 'twialon100'
         db_table_comment = 'Таблица учетных записей Клиента. Исторически сформированная на основания Google таблицы Wialon100. Является вспомогательной таблицей для соединения объекта мониторинга и клиента.'
+        verbose_name = 'Учетная запись Клиента'
+        verbose_name_plural = 'Учетные записи Клиентов'
+
