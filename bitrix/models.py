@@ -347,7 +347,9 @@ class Ttarif(models.Model):
             null=True,
             verbose_name='ID Клиента',
             )
-    tarif = models.IntegerField(
+    tarif = models.DecimalField(
+            max_digits=6,
+            decimal_places=2,
             blank=True, 
             null=True,
             verbose_name='Тариф',
@@ -386,8 +388,16 @@ class Twialon100(models.Model):
             verbose_name='Логин',
             )
     id = models.BigAutoField(primary_key=True)
-    logintd = models.TextField(blank=True, null=True)
-    tkid = models.BigIntegerField(blank=True, null=True)
+    logintd = models.TextField(
+            blank=True, 
+            null=True,
+            verbose_name='Клиент в системе мониторинга',
+            )
+    tkid = models.BigIntegerField(
+            blank=True, 
+            null=True,
+            verbose_name='ID Клиента в базе данных',
+            )
 
     class Meta:
         managed = False

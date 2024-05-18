@@ -26,10 +26,17 @@ class TagatAdmin(admin.ModelAdmin):
         })
     )
     list_per_page = 20
+    date_hierarchy = 'dbeg'
+
 
 
 class TdataAdmin(admin.ModelAdmin):
-    list_display = ('object', 'login', 'idlogin', "dimport")
+    list_display = ('object',
+                    'idsystem',
+                    'get_clients',
+                    'login',
+                    "dimport"
+                    )
     search_fields = ('login', 'idlogin', 'idsystem', 'object')
     list_filter = (('dimport', DateFieldListFilter), )
 
@@ -42,6 +49,8 @@ class TdataAdmin(admin.ModelAdmin):
                 if tklient := Tklient.objects.filter(id=twialon100_tkid).first():
                     return tklient.name
 
+    get_clients.short_description = 'Клиент в 1с'
+    date_hierarchy = 'dimport'
 
 class TemailAdmin(admin.ModelAdmin):
     list_display = ('email', 'name', 'inn', 'kpp')
@@ -60,9 +69,21 @@ class TemailAdmin(admin.ModelAdmin):
     )
 
 class TklientAdmin(admin.ModelAdmin):
-    list_display = ('name', 'shortname', 'type')
-    search_fields = ('name', 'shortname', 'type')
-    list_filter = ('name', 'shortname', 'type')
+    list_display = (
+            'name', 
+            'shortname', 
+            'type', 
+            'inn',
+            'kpp',
+            )
+    search_fields = (
+            'name', 
+            'shortname',
+            'type', 
+            'inn', 
+            'kpp',
+            )
+    list_filter = ('type',)
     list_per_page = 25
     fieldsets = (
         (None, {'fields': ('name', 'shortname', 'type')}),
@@ -78,9 +99,51 @@ class TklientAdmin(admin.ModelAdmin):
 
 
 class TtarifAdmin(admin.ModelAdmin):
-    list_display = ("tarif",)
-    search_fields = ('tarif', 'id')
+    list_display = (
+            "get_clients",
+            "tarif",
+            "dbeg",
+            "dend",
+            "get_inn",
+            "get_kpp",
+            )
+    search_fields = ('tarif', 
+                     'get_clients',
+                     'get_inn',
+                     'get_kpp',
+                     )
     list_filter = ('tarif',)
+    list_per_page = 25
+    date_hierarchy = 'dbeg'
+
+
+    def get_clients(self, obj):
+        """Выводим клиента id клиенто тарифу"""
+        if obj.tkid:
+                return obj.tkid.name
+    def get_inn(self, obj):
+        """Выводим клиента id клиенто тарифу"""
+        if obj.tkid:
+                return obj.tkid.inn
+    def get_kpp(self, obj):
+        """Выводим клиента id клиенто тарифу"""
+        if obj.tkid:
+                return obj.tkid.kpp
+
+    get_clients.short_description = 'Клиент в 1с'
+    get_inn.short_description = 'ИНН Клиента'
+    get_kpp.short_description = 'КПП Клиента'
+
+class Wialon100Admin(admin.ModelAdmin):
+    list_display = (
+            'klient',
+            'login',
+            'tkid',
+            'logintd',
+            'tkid',
+                    )
+    search_fields = ('login', 'tkid')
+    list_filter = ('login', 'tkid')
     list_per_page = 25
     
 
