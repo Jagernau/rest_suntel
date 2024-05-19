@@ -373,7 +373,7 @@ class Ttarif(models.Model):
         verbose_name_plural = 'Тарифы'
 
     def __str__(self):
-        return self.tarif
+        return f"{self.tkid} -- {self.tarif}"
 
 
 class Twialon100(models.Model):

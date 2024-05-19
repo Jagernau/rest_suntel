@@ -55,11 +55,7 @@ class TdataAdmin(admin.ModelAdmin):
 class TemailAdmin(admin.ModelAdmin):
     list_display = ('email', 'name', 'inn', 'kpp')
     search_fields = ('email', 'name', 'inn', 'kpp')
-    list_filter = ('email', 'name', 'inn', 'kpp')
-    fieldsets = (
-        (None, {'fields': ('email', 'name', 'inn', 'kpp')}),
 
-    )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
@@ -67,6 +63,8 @@ class TemailAdmin(admin.ModelAdmin):
 
         })
     )
+
+    list_per_page = 25
 
 class TklientAdmin(admin.ModelAdmin):
     list_display = (
@@ -136,14 +134,22 @@ class TtarifAdmin(admin.ModelAdmin):
 
 class Wialon100Admin(admin.ModelAdmin):
     list_display = (
+            'get_client_onec',
             'klient',
             'login',
             'tkid',
             'logintd',
             'tkid',
                     )
-    search_fields = ('login', 'tkid')
+    search_fields = ('login', 'tkid', 'klient', 'logintd', 'get_client_onec')
     list_filter = ('login', 'tkid')
+    def get_client_onec(self, obj):
+        """Выводим клиента как в 1с по id"""
+        if obj.tkid:
+                if tklient := Tklient.objects.filter(id=obj.tkid).first():
+                    return tklient.name
+
+    get_client_onec.short_description = 'Клиент как в 1с'
     list_per_page = 25
     
 
@@ -152,4 +158,5 @@ admin.site.register(Tdata, TdataAdmin)
 admin.site.register(Temail, TemailAdmin)
 admin.site.register(Tklient, TklientAdmin)
 admin.site.register(Ttarif, TtarifAdmin)
+admin.site.register(Twialon100, Wialon100Admin)
 
