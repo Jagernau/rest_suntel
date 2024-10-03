@@ -84,13 +84,13 @@ class TklientAdmin(admin.ModelAdmin):
     list_filter = ('type',)
     list_per_page = 25
     fieldsets = (
-        (None, {'fields': ('name', 'shortname', 'type')}),
+        (None, {'fields': ('name', 'shortname', 'type', 'inn', 'kpp')}),
 
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('name', 'shortname', 'type'),
+            'fields': ('name', 'shortname', 'type', 'inn', 'kpp'),
 
         })
     )
@@ -98,21 +98,23 @@ class TklientAdmin(admin.ModelAdmin):
 
 class TtarifAdmin(admin.ModelAdmin):
     list_display = (
-            "get_clients",
+            "tkid",
             "tarif",
             "dbeg",
             "dend",
             "get_inn",
             "get_kpp",
             )
-    search_fields = ('tarif', 
-                     'get_clients',
+    search_fields = ('tkid', 
                      'get_inn',
                      'get_kpp',
                      )
-    list_filter = ('tarif',)
-    list_per_page = 25
-    date_hierarchy = 'dbeg'
+    autocomplete_fields = (
+        'tkid',
+    )
+    list_filter = ('tarif', "dbeg", "dend")
+#    list_per_page = 25
+#    date_hierarchy = 'dbeg'
 
 
     def get_clients(self, obj):
@@ -128,7 +130,7 @@ class TtarifAdmin(admin.ModelAdmin):
         if obj.tkid:
                 return obj.tkid.kpp
 
-    get_clients.short_description = 'Клиент в 1с'
+#    get_clients.short_description = 'Клиент в 1с'
     get_inn.short_description = 'ИНН Клиента'
     get_kpp.short_description = 'КПП Клиента'
 
