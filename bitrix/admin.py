@@ -40,7 +40,7 @@ class TdataAdmin(admin.ModelAdmin):
     search_fields = ('login', 'idlogin', 'idsystem', 'object')
     list_filter = (('dimport', DateFieldListFilter), )
 
-    list_per_page = 20
+    list_per_page = 10
 
     def get_clients(self, obj):
         if obj.login:
@@ -68,6 +68,7 @@ class TemailAdmin(admin.ModelAdmin):
 
 class TklientAdmin(admin.ModelAdmin):
     list_display = (
+            'id',
             'name', 
             'shortname', 
             'type', 
@@ -105,9 +106,10 @@ class TtarifAdmin(admin.ModelAdmin):
             "get_inn",
             "get_kpp",
             )
-    search_fields = ('tkid', 
-                     'get_inn',
-                     'get_kpp',
+    search_fields = (
+                     'tkid__name', 
+                     'tkid__inn',
+                     'tkid__kpp',
                      )
     autocomplete_fields = (
         'tkid',
@@ -143,7 +145,7 @@ class Wialon100Admin(admin.ModelAdmin):
             'logintd',
             'tkid',
                     )
-    search_fields = ('login', 'tkid', 'klient', 'logintd', 'get_client_onec')
+    search_fields = ('login', 'tkid', 'klient', 'logintd',)
     list_filter = ('login', 'tkid')
     def get_client_onec(self, obj):
         """Выводим клиента как в 1с по id"""
